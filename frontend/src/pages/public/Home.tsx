@@ -8,27 +8,45 @@ export default function Home() {
     <PublicLayout>
       {/* Hero Section */}
       <section className="py-20 px-4">
-        <div className="container mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-              Eyes Optical Management System
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-              Comprehensive optical store management, inventory tracking, and customer care platform
-            </p>
-            <div className="flex justify-center space-x-4">
-              <Link to="/auth/register" className="btn btn-primary text-lg px-8 py-3">
-                Get Started
-              </Link>
-              <Link to="/public/book-eye-test" className="btn btn-outline text-lg px-8 py-3">
-                Book Eye Test
-              </Link>
-            </div>
-          </motion.div>
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            {/* Image Section */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="flex-1 flex justify-center"
+            >
+              <img
+                src="/public/photo.png"
+                alt="Eyes Optical"
+                className="max-w-md w-full h-auto rounded-lg shadow-lg"
+              />
+            </motion.div>
+            
+            {/* Text Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="flex-1 text-center md:text-left"
+            >
+              <h2 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                Eyes Optical Management System
+              </h2>
+              <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
+                Comprehensive optical store management, inventory tracking, and customer care platform
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+                <Link to="/auth/register" className="btn btn-primary text-lg px-8 py-3">
+                  Get Started
+                </Link>
+                <Link to="/public/book-eye-test" className="btn btn-outline text-lg px-8 py-3">
+                  Book Eye Test
+                </Link>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 

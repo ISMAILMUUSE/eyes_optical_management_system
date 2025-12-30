@@ -37,9 +37,13 @@ router.get('/overview', protect, authorize('admin', 'staff'), async (req, res) =
       isActive: true
     });
 
-    // Low stock products
+    // Low stock products - products where stock is less than or equal to lowStockThreshold (default 10)
+    // We'll check products where stock <= 10 as a simple approach, or use aggregation for more accuracy
     const lowStockProducts = await Product.countDocuments({
-      stock: { $lte: { $ifNull: ['$lowStockThreshold', 10] } },
+      $or: [
+        { stock: { $lte: 10 } },
+        { $expr: { $lte: ['$stock', '$lowStockThreshold'] } }
+      ],
       isActive: true
     });
 

@@ -30,7 +30,13 @@ router.get('/', protect, [
     }
 
     if (req.query.status) {
-      filter.status = req.query.status;
+      // Handle comma-separated status values
+      const statuses = req.query.status.split(',');
+      if (statuses.length > 1) {
+        filter.status = { $in: statuses };
+      } else {
+        filter.status = req.query.status;
+      }
     }
 
     if (req.query.date) {

@@ -78,21 +78,27 @@ export default function Overview() {
         setBestSelling(productsRes.data)
         setOrderStatus(ordersRes.data)
       } else {
-        // Customer view
+        // Customer view - get their own data
         const [ordersRes, prescriptionsRes, appointmentsRes] = await Promise.all([
           axios.get('/api/orders?limit=1'),
           axios.get('/api/prescriptions?limit=1'),
           axios.get('/api/appointments?status=scheduled,confirmed')
         ])
 
+        // Count upcoming appointments (scheduled or confirmed, in the future)
+        const upcomingCount = appointmentsRes.data.appointments?.filter((apt: any) => {
+          const aptDate = new Date(apt.appointmentDate);
+          return aptDate >= new Date() && (apt.status === 'scheduled' || apt.status === 'confirmed');
+        }).length || 0;
+
         setStats({
           totalSales: 0,
           ordersToday: 0,
           activeCustomers: 0,
           lowStockProducts: 0,
-          upcomingAppointments: appointmentsRes.data.appointments.length,
-          totalOrders: ordersRes.data.pagination.total,
-          totalProducts: 0
+          upcomingAppointments: upcomingCount,
+          totalOrders: ordersRes.data.pagination?.total || 0,
+          totalProducts: prescriptionsRes.data.prescriptions?.length || prescriptionsRes.data.pagination?.total || 0
         })
       }
     } catch (error) {

@@ -82,9 +82,14 @@ router.post('/login', [
     const { email, password } = req.body;
 
     // Check if user exists
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Check if account is active
+    if (!user.isActive) {
+      return res.status(401).json({ message: 'Account is inactive. Please contact administrator.' });
     }
 
     // Check password

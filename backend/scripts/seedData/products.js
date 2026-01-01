@@ -66,6 +66,21 @@ const descriptions = [
   'Versatile frame suitable for multiple occasions'
 ];
 
+// Mapping of product names with colors to local image files
+const productImageMap = {
+  "Bold Statement Frames - Navy": "/Bold Statement Frames - Navy.jpg",
+  "Collector's Item - Havana": "/Collector's Item - Havana.jpg",
+  "Fishing Glasses - Purple": "/Fishing Glasses - Purple.jpg",
+  "Ski Goggles - Grey": "/Ski Goggles - Grey.jpg",
+  "Best Seller - Amber": "/Best Seller - Amber.jpg",
+  "Rare Find - Blue": "/Rare Find - Blue.jpg",
+  "Celebration Frames - Rose Gold": "/Celebration Frames - Rose Gold.jpg",
+  "Latest Design - White": "/Latest Design - White.jpg",
+  "Modern Classic - White": "/Modern Classic - White.jpg",
+  "Eco-Friendly Frames - Green": "/Eco-Friendly Frames - Green.jpg",
+  "Women's Elegant - Shiny Black": "/Women's Elegant - Shiny Black.jpg"
+};
+
 export const generateProducts = (categoryIds) => {
   const products = [];
   const usedSKUs = new Set();
@@ -93,8 +108,19 @@ export const generateProducts = (categoryIds) => {
     const stock = Math.floor(Math.random() * 100);
     const isFeatured = Math.random() > 0.7; // 30% featured
     
+    const productName = `${name} - ${color}`;
+    
+    // Check if this product has a local image, otherwise use placeholder
+    const localImage = productImageMap[productName];
+    const images = localImage 
+      ? [localImage]
+      : [
+          'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=500',
+          'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500'
+        ];
+    
     products.push({
-      name: `${name} - ${color}`,
+      name: productName,
       description: `${descriptions[Math.floor(Math.random() * descriptions.length)]}. Available in ${color} with ${material} construction.`,
       sku,
       price: basePrice,
@@ -105,10 +131,7 @@ export const generateProducts = (categoryIds) => {
       gender,
       material,
       color,
-      images: [
-        'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=500',
-        'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500'
-      ],
+      images,
       stock,
       lowStockThreshold: 10,
       isFeatured,

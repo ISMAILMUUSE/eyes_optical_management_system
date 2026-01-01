@@ -50,7 +50,7 @@ async function seed() {
     const usersData = await generateUsers();
     const createdUsers = await User.insertMany(usersData);
     console.log(`✅ Created ${createdUsers.length} users`);
-    
+
     // Separate users by role
     const adminUsers = createdUsers.filter(u => u.role === 'admin');
     const staffUsers = createdUsers.filter(u => u.role === 'staff');
